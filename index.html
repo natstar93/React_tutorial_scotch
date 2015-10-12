@@ -10,8 +10,62 @@
 
     <div id="mount-point"></div>
     <div id="count-point"></div>
+    <div id="filtered-list"></div>
     <script type="text/jsx">
     /** @jsx React.DOM */
+
+    var FilteredList = React.createClass({
+      filterList: function(event){
+        var updatedList = this.state.initialItems;
+        updatedList = updatedList.filter(function(item){
+          alert(item);
+          return item.toLowerCase().search(
+            event.target.value.toLowerCase()) !== -1;
+        });
+        this.setState({items: updatedList});
+      },
+      getInitialState: function() {
+        return {
+          initialItems: [
+            "Apples",
+            "Broccoli",
+            "Chicken",
+            "Duck",
+            "Eggs",
+            "Fish",
+            "Granola",
+            "Hash Browns"
+          ],
+          items: []
+        }
+      },
+      componentWillMount: function() {
+        this.setState({items: this.state.initialItems})
+      },
+      render: function() {
+        return (
+          <div className="filter-list">
+            <input type="text" placeholder="Search" onChange={this.filterList}/>
+            <List items={this.state.items}/>
+          </div>
+        )
+      }
+    });
+
+    var List = React.createClass({
+      render: function(){
+        return (
+          <ul>
+          {
+            this.props.items.map(function(item) {
+              return <li key={item}>{item}</li>
+            })
+           }
+          </ul>
+        )
+      }
+    });
+
     var MyComponent = React.createClass({
       render: function(){
         return (
@@ -32,7 +86,7 @@
       },
       render: function(){
         return (
-          <div class="counter-component">
+          <div className="counter-component">
             <h1>Count: { this.state.count }</h1>
             <button type="button" onClick={ this.incrementCount }>Increment</button>
           </div>
@@ -44,7 +98,10 @@
     );
     React.renderComponent(
       <Counter/>, document.getElementById('count-point')
-    )
+    );
+    React.renderComponent(
+      <FilteredList/>, document.getElementById('filtered-list')
+    );
     </script>
   </body>
 </html>
