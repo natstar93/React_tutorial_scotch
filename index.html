@@ -9,6 +9,7 @@
   <body>
 
     <div id="mount-point"></div>
+    <div id="count-point"></div>
     <script type="text/jsx">
     /** @jsx React.DOM */
     var MyComponent = React.createClass({
@@ -18,9 +19,24 @@
         );
       }
     });
+    var Counter = React.createClass({
+      getInitialState: function() {
+        return {
+          count: 5
+        }
+      },
+      render: function(){
+        return (
+          <h1>{ this.state.count }</h1>
+        )
+      }
+    });
     React.renderComponent(
-      <MyComponent name="Handsome"/>, document.getElementById('mount-point')
+      <MyComponent name="Katsunatstar"/>, document.getElementById('mount-point')
     );
+    React.renderComponent(
+      <Counter/>, document.getElementById('count-point')
+    )
     </script>
   </body>
 </html>
